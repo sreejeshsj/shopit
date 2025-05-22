@@ -1,0 +1,91 @@
+
+{% load static %}
+{% load multiply %}
+<head>
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f8f9fa;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-bar button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: white;
+        }
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Orderd</h2>
+
+    <div class="search-bar">
+        <form method="get" action="{% url 'order_search' %}" enctype="multipart/form-data">
+            <input type="text" name="q" placeholder="Search ordered items...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for i in p %}
+                {% for j in i %}
+                    <tr>
+                        <td><img src="{{ j.product.image.url }}" style="height: 100px;" alt=""></td>
+                        <td>{{j.product.title}}</td>
+                        <td>{{j.quantity}}</td>
+                        <td>₹{{j.product.price}}</td>
+                        <td>₹{% multiply j.quantity j.product.price %}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            <tr>
+                <td colspan="3" style="text-align: right;"><strong>Total</strong></td>
+                <td><strong>₹2,197</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
